@@ -13,6 +13,7 @@ Grade 4 tumors represent the zenith of cellular abnormality, characterized by ra
 
 ## Key Research Areas
 **1. Biological Barriers to Eradication**
+
 Eradicating high-grade tumors is consistently hindered by three primary biological bottlenecks:
 
 * **Tumoral Heterogeneity:** The chaotic cellular landscape and presence of therapy-resistant cancer stem cells.
@@ -22,9 +23,11 @@ Eradicating high-grade tumors is consistently hindered by three primary biologic
 * **Immunosuppression:** The tumor microenvironment's ability to actively deactivate the host's native cytotoxic T-cell responses.
 
 **2. Standard of Care & Surgical Innovations**
+
 The current standard of care relies heavily on aggressive, multimodal interventions including maximal safe surgical resection, fractionated radiotherapy, and alkylating chemotherapy. Surgical advancements increasingly utilize fluorescence-guided surgery with 5-aminolevulinic acid (5-ALA) and intraoperative MRI to improve tumor detection and maximize resection accuracy without inducing neurological deficits.  
 
 **3. Precision Medicine and Emerging Curative Therapies**
+
 The research highlights a critical transition toward precision-engineered interventions:
 
 * **Immunotherapeutic Engineering:** Next-generation, multi-target CAR-T cells and T-cell engagers (TCEs) are actively being developed to bypass the BBB and overcome antigen heterogeneity.
