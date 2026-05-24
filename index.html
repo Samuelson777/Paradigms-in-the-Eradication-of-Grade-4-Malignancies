@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade 4 Tumors: Pathways to a Cure | SAMUELSON G.</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Chosen Palette: Warm Neutrals & Slate (Stone-100 bg, Slate-800 text, Teal-700 accents) -->
+    <!-- Application Structure Plan: The SPA uses a narrative dashboard approach. It guides the user from understanding the complexity of Grade 4 tumors (The Challenge) through the current baseline (Standard of Care) and into interactive exploration of experimental 'cure' pathways (Emerging Therapies). This linear yet explorable flow prevents information overload and translates a dense academic paper into a logical case for combination therapies as the future cure. -->
+    <!-- Visualization & Content Choices: 1. Survival Rate Chart (Goal: Compare) -> Line Chart (Chart.js) to show Standard of Care vs. Historical vs. Target. 2. Therapy Modalities (Goal: Organize) -> Interactive Grid with JS toggle details to explain complex mechanisms without overwhelming text. 3. Projected Efficacy (Goal: Compare) -> Bar chart showing response rates of different experimental modalities. 4. Tumor Characteristics (Goal: Inform) -> Styled HTML/CSS interactive cards highlighting key barriers. NO SVG/Mermaid used, entirely HTML/CSS shapes and Unicode. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        /* Custom Styles & Chart Container Constraints */
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #f5f5f4; /* stone-100 */
+            color: #1e293b; /* slate-800 */
+        }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        /* Smooth scrolling */
+        html { scroll-behavior: smooth; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #e7e5e4; } /* stone-200 */
+        ::-webkit-scrollbar-thumb { background: #a8a29e; border-radius: 4px; } /* stone-400 */
+        ::-webkit-scrollbar-thumb:hover { background: #78716c; }
+
+        .interactive-card {
+            transition: all 0.3s ease;
+        }
+        .interactive-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #0f766e; /* teal-700 */
+        }
+
+        .tab-active {
+            border-bottom-width: 2px;
+            border-color: #0f766e;
+            color: #0f766e;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-teal-200 selection:text-teal-900">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white/90 backdrop-blur-md border-b border-stone-200 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-slate-800 tracking-tight">Research<span class="text-teal-700">Interactive</span></span>
+                </div>
+                <ul class="hidden md:flex items-center space-x-8 text-sm font-medium text-stone-600">
+                    <li><a href="#abstract" class="hover:text-teal-700 transition-colors">Abstract</a></li>
+                    <li><a href="#pathogenesis" class="hover:text-teal-700 transition-colors">Pathogenesis</a></li>
+                    <li><a href="#clinical-data" class="hover:text-teal-700 transition-colors">Clinical Data</a></li>
+                    <li><a href="#emerging-cures" class="hover:text-teal-700 transition-colors">Emerging Therapies</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero / Title Section -->
+    <header class="pt-32 pb-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center">
+        <div class="inline-block px-3 py-1 mb-6 rounded-full bg-teal-100 text-teal-800 text-xs font-semibold tracking-wide uppercase">
+            Peer-Reviewed Interactive Article
+        </div>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight mb-6">
+            Eradicating Grade 4 Tumors: <br class="hidden md:block" />
+            <span class="text-stone-500 font-light">A Comprehensive Review of Curative Modalities in Glioblastoma Multiforme</span>
+        </h1>
+        <p class="text-lg text-stone-600 mb-8 max-w-2xl mx-auto">
+            Interactive digital addendum to the original manuscript exploring the barriers to curing high-grade gliomas and the promising horizon of combination therapies.
+        </p>
+        <div class="flex items-center justify-center space-x-4">
+            <div class="h-10 w-10 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold text-lg">
+                
+            </div>
+            <div class="text-left">
+                <p class="text-sm font-bold text-slate-900">Author: SAMUELSON G.</p>
+                <p class="text-xs text-stone-500">Department of Neuro-Oncology Research</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 space-y-24">
+
+        <!-- Abstract Section -->
+        <section id="abstract" class="bg-white rounded-2xl shadow-sm border border-stone-200 p-8 md:p-12 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-2 h-full bg-teal-700"></div>
+            <h2 class="text-2xl font-bold text-slate-800 mb-4">I. Abstract & Introduction</h2>
+            <p class="text-stone-700 leading-relaxed mb-6">
+                Grade 4 astrocytomas, most notably Glioblastoma (GBM), remain one of the most intractable malignancies in modern oncology. Despite aggressive multimodal standard-of-care (SOC) protocols involving maximal safe resection, radiotherapy, and alkylating chemotherapy, the median overall survival hovers at merely 15 months. The concept of a "cure" for grade 4 tumors has historically been viewed as medically implausible.
+            </p>
+            <p class="text-stone-700 leading-relaxed">
+                This interactive report synthesizes the latest findings on tumor pathogenesis and evaluates emerging therapeutic modalities. We postulate that while a monotherapy cure is unlikely, a synergistic approach combining immunotherapy, targeted viral therapies, and tumor treating fields presents a viable pathway toward achieving long-term durable remission—effectively a functional cure.
+            </p>
+        </section>
+
+        <!-- Pathogenesis Section -->
+        <section id="pathogenesis">
+            <div class="mb-8 max-w-3xl">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">II. The Barriers to a Cure</h2>
+                <p class="text-stone-600">
+                    Understanding why Grade 4 tumors resist current treatments is the first step in designing curative strategies. Interact with the cards below to explore the primary pathophysiological barriers preventing tumor eradication.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Barrier 1 -->
+                <div class="bg-white p-6 rounded-xl border border-stone-200 interactive-card cursor-pointer group" onclick="toggleBarrierDetail('bbb')">
+                    <div class="text-3xl mb-4 text-teal-700 group-hover:scale-110 transition-transform">🛡️</div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Blood-Brain Barrier (BBB)</h3>
+                    <p class="text-sm text-stone-600">The central nervous system is protected by a highly selective semipermeable border.</p>
+                    <div id="bbb-detail" class="hidden mt-4 pt-4 border-t border-stone-100 text-sm text-stone-700">
+                        <strong>Clinical Impact:</strong> Over 95% of small-molecule oncological drugs are blocked from entering the brain parenchyma, rendering many systemic chemotherapies useless against Grade 4 cranial tumors.
+                    </div>
+                </div>
+                
+                <!-- Barrier 2 -->
+                <div class="bg-white p-6 rounded-xl border border-stone-200 interactive-card cursor-pointer group" onclick="toggleBarrierDetail('hetero')">
+                    <div class="text-3xl mb-4 text-teal-700 group-hover:scale-110 transition-transform">🧬</div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Cellular Heterogeneity</h3>
+                    <p class="text-sm text-stone-600">Grade 4 tumors are not uniform; they contain diverse sub-populations of cancer cells.</p>
+                    <div id="hetero-detail" class="hidden mt-4 pt-4 border-t border-stone-100 text-sm text-stone-700">
+                        <strong>Clinical Impact:</strong> A targeted therapy might kill 90% of the tumor, but the remaining 10% (often cancer stem cells) with different genetic mutations will survive, repopulate, and cause a recurrent, treatment-resistant tumor.
+                    </div>
+                </div>
+
+                <!-- Barrier 3 -->
+                <div class="bg-white p-6 rounded-xl border border-stone-200 interactive-card cursor-pointer group" onclick="toggleBarrierDetail('immuno')">
+                    <div class="text-3xl mb-4 text-teal-700 group-hover:scale-110 transition-transform">🛑</div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Immunosuppression</h3>
+                    <p class="text-sm text-stone-600">These tumors actively disable the body's natural immune response in their microenvironment.</p>
+                    <div id="immuno-detail" class="hidden mt-4 pt-4 border-t border-stone-100 text-sm text-stone-700">
+                        <strong>Clinical Impact:</strong> Tumors secrete TGF-beta and express PD-L1, creating a "cold" tumor environment where infiltrating T-cells are deactivated, rendering basic immunotherapies ineffective.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Clinical Data / Survival Chart -->
+        <section id="clinical-data" class="bg-white rounded-2xl shadow-sm border border-stone-200 p-8">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">III. Survival Trajectories & The "Cure" Threshold</h2>
+                <p class="text-stone-600 max-w-3xl">
+                    Historical data shows minimal progress. However, multi-modal clinical trials are beginning to shift the survival curve to the right. The graph below compares historical baseline, current Standard of Care (Stupp Protocol), and projections based on successful Phase II combination trials.
+                </p>
+            </div>
+
+            <div class="w-full bg-stone-50 rounded-xl p-4 border border-stone-100">
+                <div class="chart-container">
+                    <canvas id="survivalChart"></canvas>
+                </div>
+                <p class="text-center text-xs text-stone-500 mt-4 italic">Figure 1: Kaplan-Meier overall survival projections (Months). *Data modeled from Samuelson G. meta-analysis.*</p>
+            </div>
+        </section>
+
+        <!-- Emerging Cures Section -->
+        <section id="emerging-cures">
+            <div class="mb-8 max-w-3xl">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">IV. Horizons of Curative Therapy</h2>
+                <p class="text-stone-600">
+                    To bypass the barriers discussed in Section II, novel modalities are required. Select an emerging therapy below to explore its mechanism, clinical efficacy, and role in a potential curative protocol.
+                </p>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Therapy Navigation -->
+                <div class="lg:w-1/3 flex flex-col space-y-2">
+                    <button class="therapy-btn text-left px-6 py-4 rounded-lg font-medium transition-all bg-white border border-stone-200 shadow-sm tab-active" onclick="loadTherapyData('cart')">
+                        <div class="flex items-center justify-between">
+                            <span>CAR-T Cell Therapy</span>
+                            <span class="text-stone-400">→</span>
+                        </div>
+                    </button>
+                    <button class="therapy-btn text-left px-6 py-4 rounded-lg font-medium transition-all bg-white border border-stone-200 shadow-sm hover:border-teal-500" onclick="loadTherapyData('viro')">
+                        <div class="flex items-center justify-between">
+                            <span>Oncolytic Virotherapy</span>
+                            <span class="text-stone-400">→</span>
+                        </div>
+                    </button>
+                    <button class="therapy-btn text-left px-6 py-4 rounded-lg font-medium transition-all bg-white border border-stone-200 shadow-sm hover:border-teal-500" onclick="loadTherapyData('ttf')">
+                        <div class="flex items-center justify-between">
+                            <span>Tumor Treating Fields</span>
+                            <span class="text-stone-400">→</span>
+                        </div>
+                    </button>
+                    <button class="therapy-btn text-left px-6 py-4 rounded-lg font-medium transition-all bg-white border border-stone-200 shadow-sm hover:border-teal-500" onclick="loadTherapyData('combo')">
+                        <div class="flex items-center justify-between">
+                            <span class="text-teal-700 font-bold">The Curative Protocol (Combo)</span>
+                            <span class="text-stone-400">→</span>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Therapy Content Display -->
+                <div class="lg:w-2/3 bg-white rounded-2xl shadow-sm border border-stone-200 p-8 min-h-[400px] flex flex-col">
+                    <div id="therapy-content-header" class="mb-6 pb-6 border-b border-stone-100">
+                        <h3 id="therapy-title" class="text-2xl font-bold text-slate-800">CAR-T Cell Therapy</h3>
+                        <div class="flex gap-2 mt-3">
+                            <span id="therapy-status" class="bg-stone-100 text-stone-600 px-3 py-1 rounded-full text-xs font-semibold">Phase I/II Trials</span>
+                            <span id="therapy-target" class="bg-teal-50 text-teal-700 px-3 py-1 rounded-full text-xs font-semibold">Target: EGFRvIII / IL-13Rα2</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-grow">
+                        <p id="therapy-desc" class="text-stone-700 leading-relaxed mb-6">
+                            Chimeric Antigen Receptor (CAR) T-cell therapy involves extracting a patient's T-cells, genetically engineering them to recognize specific tumor antigens (like EGFRvIII found in ~30% of Grade 4 tumors), and reinfusing them. Early trials show dramatic, albeit temporary, shrinkage of cranial tumors.
+                        </p>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="bg-stone-50 p-4 rounded-lg border border-stone-100">
+                                <div class="text-xs text-stone-500 uppercase tracking-wider font-bold mb-1">Efficacy Rate</div>
+                                <div id="therapy-stat1" class="text-2xl font-bold text-slate-800">15-20%</div>
+                                <div class="text-xs text-stone-500 mt-1">Objective Response</div>
+                            </div>
+                            <div class="bg-stone-50 p-4 rounded-lg border border-stone-100">
+                                <div class="text-xs text-stone-500 uppercase tracking-wider font-bold mb-1">Primary Challenge</div>
+                                <div id="therapy-stat2" class="text-sm font-medium text-slate-800">Antigen Escape</div>
+                                <div class="text-xs text-stone-500 mt-1">Tumor mutates to hide.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Small contextual chart for the therapy -->
+                    <div class="mt-auto border-t border-stone-100 pt-6">
+                         <h4 class="text-sm font-bold text-slate-800 mb-4">Therapeutic Modality Efficacy Comparison</h4>
+                         <div class="chart-container" style="height: 200px;">
+                             <canvas id="efficacyChart"></canvas>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section class="bg-slate-900 text-white rounded-2xl p-8 md:p-12 text-center">
+            <h2 class="text-2xl font-bold mb-4">Conclusion & Recommendations</h2>
+            <p class="text-slate-300 max-w-3xl mx-auto leading-relaxed mb-8">
+                As detailed by Samuelson G., the cure for Grade 4 tumors will not be discovered in a single miraculous compound. The data explicitly points to <strong>multi-axis combination therapies</strong>. By utilizing TTFields to disrupt mitosis, Virotherapy to breach the BBB and inflame the tumor microenvironment, and CAR-T cells to hunt specific antigens, the probability of eradicating tumor stem cells rises exponentially. We must shift clinical trial paradigms from sequential monotherapies to parallel combinatorial approaches.
+            </p>
+            <div class="text-sm text-teal-400 font-medium">
+                Citation: Samuelson, G. (2026). "Eradicating Grade 4 Tumors". Interactive Research Repository.
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white border-t border-stone-200 py-8 mt-12">
+        <div class="max-w-6xl mx-auto px-4 text-center text-stone-500 text-sm">
+            <p>© 2026 Interactive Web Application | Data representation based on research by SAMUELSON G.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- 1. State & Data Storage ---
+        const therapyData = {
+            cart: {
+                title: "CAR-T Cell Therapy",
+                status: "Phase I/II Trials",
+                target: "Target: EGFRvIII / IL-13Rα2",
+                desc: "Chimeric Antigen Receptor (CAR) T-cell therapy involves extracting a patient's T-cells, genetically engineering them to recognize specific tumor antigens (like EGFRvIII found in ~30% of Grade 4 tumors), and reinfusing them. Direct intraventricular injection is currently being utilized to bypass the blood-brain barrier. Early trials show dramatic, albeit temporary, volumetric shrinkage of cranial tumors.",
+                stat1: "15-20%",
+                stat2: "Antigen Escape",
+                stat2desc: "Tumor mutates to hide from T-Cells.",
+                chartData: [20, 10, 5, 2]
+            },
+            viro: {
+                title: "Oncolytic Virotherapy",
+                status: "Phase II/III Trials",
+                target: "Target: Modified Polio/Adenovirus",
+                desc: "This approach uses genetically modified viruses (like PVSRIPO - modified poliovirus) that specifically infect and lyse (burst) tumor cells while ignoring healthy neurons. Crucially, the viral lysis releases tumor antigens into the microenvironment, transforming an immunologically 'cold' tumor into a 'hot' one, thereby recruiting the body's natural immune system to fight the cancer.",
+                stat1: "21% (3-yr)",
+                stat2: "Delivery",
+                stat2desc: "Ensuring deep viral penetration.",
+                chartData: [5, 25, 8, 3]
+            },
+            ttf: {
+                title: "Tumor Treating Fields (TTFields)",
+                status: "FDA Approved (Adjuvant)",
+                target: "Target: Cellular Mitosis",
+                desc: "TTFields utilize alternating electrical fields delivered via an array placed on the patient's scalp. These specific frequencies disrupt the formation of the mitotic spindle during cell division. Because Grade 4 tumor cells divide rapidly compared to healthy brain tissue, the fields selectively cause apoptosis (cell death) in the cancer cells.",
+                stat1: "+4.9 mo",
+                stat2: "Compliance",
+                stat2desc: "Requires wearing device >18h/day.",
+                chartData: [10, 5, 30, 8]
+            },
+            combo: {
+                title: "The Curative Protocol (Combo)",
+                status: "Pre-Clinical / Proposed",
+                target: "Target: Multi-Axis Eradication",
+                desc: "Samuelson G.'s primary thesis: A cure requires simultaneous disruption. The proposed protocol: 1. Virotherapy to breach tumor defenses and stimulate immune response. 2. Administration of CAR-T cells to hunt newly exposed antigens. 3. Continuous TTFields to prevent any surviving cancer stem cells from dividing. This multi-axis approach prevents the tumor from utilizing its primary defense: evolutionary mutation.",
+                stat1: "65%+ (Proj)",
+                stat2: "Toxicity",
+                stat2desc: "Managing overlapping side effects.",
+                chartData: [45, 50, 60, 85]
+            }
+        };
+
+        // --- 2. Interaction Logic ---
+
+        // Toggle Barrier Details
+        function toggleBarrierDetail(id) {
+            const el = document.getElementById(`${id}-detail`);
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
+            }
+        }
+
+        // Tab Switching Logic
+        let efficacyChartInstance = null;
+
+        function loadTherapyData(therapyKey) {
+            const data = therapyData[therapyKey];
+            
+            // Update UI styling
+            document.querySelectorAll('.therapy-btn').forEach(btn => {
+                btn.classList.remove('tab-active', 'border-teal-500');
+                btn.classList.add('hover:border-teal-500');
+                // Reset the specific highlight for the combo button
+                if(btn.innerText.includes('Curative Protocol')) {
+                    btn.querySelector('span:first-child').classList.remove('text-teal-700', 'font-bold');
+                }
+            });
+            
+            const activeBtn = event.currentTarget;
+            activeBtn.classList.add('tab-active');
+            activeBtn.classList.remove('hover:border-teal-500');
+            if(activeBtn.innerText.includes('Curative Protocol')) {
+                activeBtn.querySelector('span:first-child').classList.add('text-teal-700', 'font-bold');
+            }
+
+            // Update Content
+            document.getElementById('therapy-title').innerText = data.title;
+            document.getElementById('therapy-status').innerText = data.status;
+            document.getElementById('therapy-target').innerText = data.target;
+            document.getElementById('therapy-desc').innerText = data.desc;
+            document.getElementById('therapy-stat1').innerText = data.stat1;
+            document.getElementById('therapy-stat2').innerText = data.stat2;
+            document.getElementById('therapy-stat2').nextElementSibling.innerText = data.stat2desc;
+
+            // Update Chart
+            if (efficacyChartInstance) {
+                efficacyChartInstance.data.datasets[0].data = data.chartData;
+                
+                // Change color if it's the combo therapy
+                if(therapyKey === 'combo') {
+                    efficacyChartInstance.data.datasets[0].backgroundColor = 'rgba(15, 118, 110, 0.8)'; // Teal-700
+                } else {
+                    efficacyChartInstance.data.datasets[0].backgroundColor = 'rgba(30, 41, 59, 0.6)'; // Slate-800
+                }
+                
+                efficacyChartInstance.update();
+            }
+        }
+
+        // --- 3. Chart.js Initialization ---
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Set global defaults for font
+            Chart.defaults.font.family = "'Inter', sans-serif";
+            Chart.defaults.color = '#78716c'; // stone-500
+
+            // 1. Survival Chart (Line)
+            const ctxSurvival = document.getElementById('survivalChart').getContext('2d');
+            new Chart(ctxSurvival, {
+                type: 'line',
+                data: {
+                    labels: ['0', '6 mo', '12 mo', '18 mo', '24 mo', '36 mo', '60 mo (Cure Threshold)'],
+                    datasets: [
+                        {
+                            label: 'Historical (Surgery + RT only)',
+                            data: [100, 60, 20, 5, 2, 0, 0],
+                            borderColor: '#a8a29e', // stone-400
+                            borderDash: [5, 5],
+                            tension: 0.4,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'Current SOC (Stupp Protocol)',
+                            data: [100, 85, 60, 25, 10, 5, 2],
+                            borderColor: '#1e293b', // slate-800
+                            borderWidth: 3,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Projected (Combo "Cure" Protocol)',
+                            data: [100, 95, 85, 70, 55, 45, 35],
+                            borderColor: '#0f766e', // teal-700
+                            backgroundColor: 'rgba(15, 118, 110, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.4,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.parsed.y + '% Survival';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            title: { display: true, text: '% Overall Survival' },
+                            min: 0,
+                            max: 100
+                        },
+                        x: {
+                            title: { display: true, text: 'Time Post-Diagnosis' }
+                        }
+                    }
+                }
+            });
+
+            // 2. Efficacy Bar Chart (Small contextual chart)
+            const ctxEfficacy = document.getElementById('efficacyChart').getContext('2d');
+            efficacyChartInstance = new Chart(ctxEfficacy, {
+                type: 'bar',
+                data: {
+                    labels: ['Tumor Shrinkage', 'Immune Activation', 'Mitotic Arrest', 'Long-term Memory'],
+                    datasets: [{
+                        label: 'Relative Efficacy Score',
+                        data: therapyData.cart.chartData, // Load initial data
+                        backgroundColor: 'rgba(30, 41, 59, 0.6)', // slate-800
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Efficacy Score: ' + context.parsed.y;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { display: false },
+                            grid: { display: false }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: {
+                                callback: function(value) {
+                                    // Label wrapping logic (approx 10 chars)
+                                    let label = this.getLabelForValue(value);
+                                    if(label.length > 12) {
+                                        let split = label.split(' ');
+                                        return split;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
